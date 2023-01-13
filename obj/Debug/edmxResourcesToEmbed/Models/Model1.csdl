@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExpenseTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cexpense_limit" Type="Int32" />
+    <NavigationProperty Name="ExpenseDatas" Relationship="ExpenseTrackerModel.FK_Expense_Category1" FromRole="Category" ToRole="ExpenseData" />
+  </EntityType>
+  <EntityType Name="Total_expenseLimit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Total_limit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="ExpenseDbcontext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Total_expenseLimit" EntityType="Self.Total_expenseLimit" />
+    <EntitySet Name="ExpenseDatas" EntityType="ExpenseTrackerModel.ExpenseData" />
+    <AssociationSet Name="FK_Expense_Category1" Association="ExpenseTrackerModel.FK_Expense_Category1">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="ExpenseData" EntitySet="ExpenseDatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Expense_Expense1" Association="ExpenseTrackerModel.FK_Expense_Expense1">
+      <End Role="ExpenseData" EntitySet="ExpenseDatas" />
+      <End Role="ExpenseData1" EntitySet="ExpenseDatas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ExpenseData">
+    <Key>
+      <PropertyRef Name="ExpenseId" />
+    </Key>
+    <Property Name="ExpenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="date_and_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Category" Relationship="ExpenseTrackerModel.FK_Expense_Category1" FromRole="ExpenseData" ToRole="Category" />
+    <NavigationProperty Name="ExpenseData1" Relationship="ExpenseTrackerModel.FK_Expense_Expense1" FromRole="ExpenseData" ToRole="ExpenseData1" />
+    <NavigationProperty Name="ExpenseData2" Relationship="ExpenseTrackerModel.FK_Expense_Expense1" FromRole="ExpenseData1" ToRole="ExpenseData" />
+  </EntityType>
+  <Association Name="FK_Expense_Category1">
+    <End Type="ExpenseTrackerModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="ExpenseTrackerModel.ExpenseData" Role="ExpenseData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="ExpenseData">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Expense_Expense1">
+    <End Type="ExpenseTrackerModel.ExpenseData" Role="ExpenseData" Multiplicity="1" />
+    <End Type="ExpenseTrackerModel.ExpenseData" Role="ExpenseData1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ExpenseData">
+        <PropertyRef Name="ExpenseId" />
+      </Principal>
+      <Dependent Role="ExpenseData1">
+        <PropertyRef Name="ExpenseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

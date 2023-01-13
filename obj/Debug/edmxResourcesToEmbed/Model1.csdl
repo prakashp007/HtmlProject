@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExpenseTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cexpense_limit" Type="Int32" />
+    <NavigationProperty Name="Expenses" Relationship="Self.FK_Expense_Category" FromRole="Category" ToRole="Expense" />
+  </EntityType>
+  <EntityType Name="Expense">
+    <Key>
+      <PropertyRef Name="ExpenseId" />
+    </Key>
+    <Property Name="ExpenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="CategoryId" Type="Int32" />
+    <Property Name="date_and_time" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Expense_Category" FromRole="Expense" ToRole="Category" />
+    <NavigationProperty Name="Expense1" Relationship="Self.FK_Expense_Expense" FromRole="Expense" ToRole="Expense1" />
+    <NavigationProperty Name="Expense2" Relationship="Self.FK_Expense_Expense" FromRole="Expense1" ToRole="Expense" />
+  </EntityType>
+  <EntityType Name="Total_expenseLimit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Total_limit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Expense_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Expense">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Expense_Expense">
+    <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
+    <End Role="Expense1" Type="Self.Expense" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Expense">
+        <PropertyRef Name="ExpenseId" />
+      </Principal>
+      <Dependent Role="Expense1">
+        <PropertyRef Name="ExpenseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExpenseDbcontext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Expenses" EntityType="Self.Expense" />
+    <EntitySet Name="Total_expenseLimit" EntityType="Self.Total_expenseLimit" />
+    <AssociationSet Name="FK_Expense_Category" Association="Self.FK_Expense_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Expense" EntitySet="Expenses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Expense_Expense" Association="Self.FK_Expense_Expense">
+      <End Role="Expense" EntitySet="Expenses" />
+      <End Role="Expense1" EntitySet="Expenses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
