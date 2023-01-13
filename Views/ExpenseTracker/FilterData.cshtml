@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Expense_Tracker.Models.ViewModel>
+
+@{
+    ViewBag.Title = "FilterData";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container">
+    <div class="alert alert-danger">
+        <p>
+            Your Total Expense limit  : @ViewBag.TotalExpense
+            @if (ViewBag.msg != null)
+            {<strong>@ViewBag.msg @Html.ActionLink("Add", "CreateTotalLimit", "ExpenseTracker")</strong>
+
+
+        }else
+            {
+                <strong></strong>
+            }
+        </p>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success !....</strong>@TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="label-primary">
+                <th>Category Name</th>
+                <th>Expenses limit</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("FilterData2","ExpenseTracker",new { ID = item.exp.cid})">@item.cat.cname</a>
+                    </td>
+                    <td>@item.cat.cexpenselimit</td>
+                    <td>@item.exp.title</td>
+                    <td>@item.exp.description</td>
+                    <td>@item.exp.amount</td>
+                    <td>@item.exp.date</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+
+                <td class="alert alert-info"> Total expense </td>
+                <td class="alert alert-info">@ViewBag.total</td>
+                <td></td>
+                <td class="alert-danger">Total Amount</td>
+                <td class="alert-danger">@Model.Sum(m => m.exp.amount)</td>
+            </tr>
+
+            <tr>
+                <td class="alert alert-info"> Remaining Amount </td>
+                <td>@ViewBag.remainingamount </td>
+            </tr>
+        </tfoot>
+
+    </table>
+</div>

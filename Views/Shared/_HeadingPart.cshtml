@@ -1,0 +1,34 @@
+﻿<script type="text/javascript">
+    function checkDelete() {
+        alert("your Record is delelted ");
+    }
+
+    function checkUpdate() {
+        alert("Your Record has been updated");
+    }
+</script>
+<div class="top">
+    <div class="container">
+        <nav class="navbar navbar-default ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="@Url.Action("FilterData","ExpenseTracker")">Expense Tracker</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Add Categories", "CreateCat", "ExpenseTracker")</li>
+                        <li>@Html.ActionLink("Categories List", "catList", "ExpenseTracker")</li>
+                        <li>@Html.ActionLink("Add Expenses", "CreateExpenses", "ExpenseTracker")</li>
+                        <li>@Html.ActionLink("Expenses List", "ExpensesList", "ExpenseTracker")</li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+</div>

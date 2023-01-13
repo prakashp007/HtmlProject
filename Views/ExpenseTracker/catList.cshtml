@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Expense_Tracker.Models.categories>
+
+@{
+    ViewBag.Title = "catList";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">Categories List</h2>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success !</strong>@TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+
+    <p class="">
+        <a href="@Url.Action("CreateCat","ExpenseTracker")" class="btn btn-success">Add New Categories</a>
+        @*  @Html.ActionLink("Add New Categories", "CreateCat")*@
+    </p>
+    <table class="table table-hover table-bordered">
+        <thead><tr class="label-info">
+    <th>
+        Categories Name
+    </th>
+    <th>
+        Expenses Limit
+    </th>
+    <th>Action</th>
+</tr></thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.cname, "FilterData2", "ExpenseTracker", new { Id = item.cid }, null)</td>
+
+                    <!--<td><a href="@Url.Action("FilterData", "ExpenseTracker", new { Id = item.cid })">@item.cname</a>-->
+                    @*@Html.ActionLink(item.cname, "FilterData", "ExpenseTracker", new { Id = item.cid }, null)*@<!--</td>-->
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cexpenselimit)
+                    </td>
+                    <td>
+
+                        <a href="@Url.Action("EditCat", "ExpenseTracker", new { id = item.cid })" class="btn btn-success glyphicon glyphicon-pencil" >Edit</a>
+                        <a href="@Url.Action("DeleteCat", "ExpenseTracker", new { id = item.cid })" class="btn btn-danger glyphicon glyphicon-trash" onclick="checkDelete()">Delete</a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="alert alert-danger">Total Expenses Limit </td>
+                <td>@Model.Sum(i => i.cexpenselimit)</td>
+            </tr>
+        </tfoot>       
+    </table>
+</div>

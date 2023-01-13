@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Expense_Tracker.Models.expenses>
+
+
+@{
+    ViewBag.Title = "ExpensesList";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">Expenses List</h2>
+
+    <p>
+        <a href="@Url.Action("CreateExpenses","ExpenseTracker")" class="btn btn-success">Add New Expense</a>
+       
+    </p>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success !</strong>@TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+<table class="table table-hover table-bordered">
+    <thead>
+        <tr class="label-info">
+            <th>
+                Categories
+                @*@Html.DisplayNameFor(model => model.cat_name.cname)
+                *@
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Date
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("FilterData2","ExpenseTracker",new { ID = item.cid})">@Html.DisplayFor(modelItem => item.cat_name.cname)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditExpenses","ExpenseTracker",  new { id = item.eid })" class="btn btn-success glyphicon glyphicon-pencil" >Edit</a>
+                    <a href="@Url.Action("DeleteExpenses","ExpenseTracker",  new { id = item.eid })" class="btn btn-danger glyphicon glyphicon-trash" onclick="checkDelete()">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+        <tr>
+            <td class="alert alert-danger">Total Expenses </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>@Model.Sum(i => i.amount)</td>
+        </tr>
+    </tfoot>
+
+</table>
+
+</div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Expense_Tracker.Models.ViewModel>
+
+@{
+    ViewBag.Title = "FilterData2";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="container">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="label-info">
+                <th>Category Name</th>
+                <th>Expenses limit</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.cat.cname</td>
+                    <td>@item.cat.cexpenselimit</td>
+                    <td>@item.exp.title</td>
+                    <td>@item.exp.description</td>
+                    <td>@item.exp.amount</td>
+                    <td>@item.exp.date</td>
+                    @*            <td>
+                            <a href="@Url.Action("EditExpense", new { item.expense.Exp_Id, item.expense.Title, item.expense.Description, item.expense.Amount, item.exCategory.Name, item.expense.Date })" class="btn btn-success">Edit</a>
+                            <a href="@Url.Action("DeleteEx", new { @item.expense.Exp_Id })" class="btn btn-danger">Delete</a>
+                        </td>
+                    *@
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+
+                <td class="alert alert-info">
+                    Expenses Limit
+                        <strong class="label-danger">@ViewBag.msg</strong>
+                </td>
+                <td class="alert alert-info">@ViewBag.amount</td>
+                   <td>&nbsp;</td>
+                <td class="alert-danger">Expenses </td>
+                <td class="alert-danger">@Model.Sum(m => m.exp.amount)</td>
+            </tr>
+
+            <tr>
+                <td class="alert alert-info"> Remaining Amount </td>
+                <td>@ViewBag.remaining2 </td>
+            </tr>
+        </tfoot>
+
+    </table>
+</div>
+
